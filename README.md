@@ -1,96 +1,43 @@
 # 🚀 Automated ML Deployment System
 
-[![MLOps](https://img.shields.io/badge/MLOps-Production--Ready-blueviolet)](https://github.com/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![FastAPI](https://img.shields.io/badge/API-FastAPI-009688?logo=fastapi)](https://fastapi.tiangolo.com/)
-[![Docker](https://img.shields.io/badge/Docker-Containerized-blue?logo=docker)](https://www.docker.com/)
+A production-ready, fully automated end-to-end Machine Learning pipeline. This system automates the training of a Random Forest model on the Iris dataset and deploys it as a containerized API to **Hugging Face Spaces** using **GitHub Actions**.
 
-A state-of-the-art MLOps pipeline designed for seamless Machine Learning model deployment. This system automates everything from model training and versioning to containerization and cloud orchestration on AWS EKS.
+## 🏗️ Architecture
+1. **GitHub Actions**: Triggers on every push to `main`.
+2. **Auto-Training**: The pipeline installs dependencies and runs `model/train.py` to generate an updated `model.joblib`.
+3. **Seamless Deployment**: The system uses the `huggingface_hub` API to push the latest code and model to Hugging Face Spaces.
+4. **FastAPI Serving**: The model is served via a FastAPI backend running inside a Docker container.
 
----
+## 🛠️ Tech Stack
+- **Languages**: Python 3.10
+- **ML Frameworks**: Scikit-Learn, Pandas
+- **API Framework**: FastAPI, Uvicorn
+- **CI/CD**: GitHub Actions
+- **Containerization**: Docker
+- **Deployment**: Hugging Face Spaces
 
-## 🌟 Key Features
+## 🚀 Getting Started
 
-- **End-to-End Automation**: Push code → Auto-train → Build Image → Push to Hub → Deploy to K8s.
-- **Production-Grade API**: Built with FastAPI for high performance and automatic Swagger/OpenAPI documentation.
-- **Containerized Excellence**: Docker-optimized builds for lightweight and secure model serving.
-- **Scalable Orchestration**: Kubernetes manifests included for auto-scaling, load balancing, and high availability.
-- **CI/CD Integrated**: Fully configured GitHub Actions pipeline for continuous deployment.
+### Prerequisites
+- Python 3.10+
+- A Hugging Face account and a Space created with the **Docker SDK**.
+- A GitHub repository for your code.
 
----
-
-## 🏗️ System Architecture
-
-| Component | Technology | Description |
-| :--- | :--- | :--- |
-| **Model** | Scikit-Learn | Random Forest Classifier (Iris Dataset). |
-| **API** | FastAPI | High-performance RESTful inference service. |
-| **Container** | Docker | Multi-stage slim builds for deployment. |
-| **CI/CD** | GitHub Actions | Automated pipeline for build, test, and deploy. |
-| **Cloud** | AWS EKS | Managed Kubernetes for production scaling. |
-
----
-
-## 📂 Project Structure
-
-```text
-Automated ML Deployment System/
-├── .github/workflows/  # CI/CD Pipeline Definitions
-├── app/                # Inference API Source Code
-│   ├── main.py         # FastAPI Entry Point
-│   └── requirements.txt
-├── k8s/                # Kubernetes Manifests
-│   ├── deployment.yaml # K8s Deployment Specs
-│   └── service.yaml    # K8s LoadBalancer Service
-├── model/              # Machine Learning Training Logic
-│   ├── train.py        # Model Training & Versioning
-│   └── requirements.txt
-├── Dockerfile          # Container Image Instructions
-├── docker-compose.yml  # Local Orchestration
-└── README.md           # Project Documentation
-```
-
----
-
-## 🛠️ Local Setup & Development
-
-### 1. Model Training
-Train the model locally to generate the initial artifacts.
-
-```bash
-cd model
-pip install -r requirements.txt
-python train.py
-```
-
-### 2. Launch Local API
-Run the FastAPI server with hot-reload enabled for development.
-
-```bash
-cd app
-pip install -r requirements.txt
-uvicorn main:app --reload
-```
-
-- **API URL**: `http://localhost:8000`
-- **Docs (Swagger)**: `http://localhost:8000/docs`
-
-### 3. Docker Orchestration
-Test the entire containerized stack locally.
-
-```bash
-docker-compose up --build
-```
-
----
+### GitHub Secrets Configuration
+To enable the automated deployment, add the following secret to your GitHub repository:
+- `HF_TOKEN`: Your Hugging Face "Write" Access Token.
 
 ## 📡 API Endpoints
 
-### `POST /predict`
-Submit feature data to receive a model prediction.
+### 1. Health Check
+`GET /health`
+Verifies if the model is loaded and the API is ready.
+
+### 2. Prediction
+`POST /predict`
+Submit features to get a species prediction.
 
 **Request Body:**
-
 ```json
 {
   "sepal_length": 5.1,
@@ -101,7 +48,6 @@ Submit feature data to receive a model prediction.
 ```
 
 **Response:**
-
 ```json
 {
   "prediction": 0,
@@ -109,28 +55,8 @@ Submit feature data to receive a model prediction.
 }
 ```
 
----
-
-## ☁️ Cloud Deployment (CI/CD)
-
-To activate the automated deployment pipeline, configure these **Secrets** in your GitHub repository:
-
-| Secret Name | Description |
-| :--- | :--- |
-| `DOCKER_USERNAME` | Your Docker Hub username. |
-| `DOCKER_PASSWORD` | Your Docker Hub access token. |
-| `AWS_ACCESS_KEY_ID` | AWS IAM Access Key. |
-| `AWS_SECRET_ACCESS_KEY` | AWS IAM Secret Key. |
-
-> [!TIP]
-> Ensure your AWS IAM user has `AmazonEKSClusterPolicy` and `AmazonEC2ContainerRegistryFullAccess`.
-
----
-
-## 📜 License
-
-Distributed under the MIT License. See `LICENSE` for more information.
-
----
-
-*Created with ❤️ for high-performance ML teams.*
+## 📂 Project Structure
+- `app/`: FastAPI application code.
+- `model/`: Training scripts and model definitions.
+- `.github/workflows/`: CI/CD pipeline configuration.
+- `Dockerfile`: Container configuration for production.
