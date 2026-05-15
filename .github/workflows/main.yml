@@ -59,7 +59,7 @@ jobs:
         api = HfApi()
         api.upload_folder(
             folder_path='.',
-            repo_id='dwsssp/ml-auto-deployment',
+            repo_id='dwssp/ml-auto-deployment',
             repo_type='space',
             token='${{ secrets.HF_TOKEN }}',
             path_in_repo='.',
