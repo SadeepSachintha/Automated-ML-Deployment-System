@@ -1,4 +1,14 @@
+---
+title: ML Auto Deployment
+emoji: 🚀
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+pinned: false
+---
+
 # 🚀 Automated ML Deployment System
+
 
 [![ML Auto Deployment CI/CD](https://github.com/SadeepSachintha/Automated-ML-Deployment-System/actions/workflows/main.yml/badge.svg)](https://github.com/SadeepSachintha/Automated-ML-Deployment-System/actions/workflows/main.yml)
 [![Hugging Face Space](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Space-yellow)](https://huggingface.co/spaces/dwssp/ml-auto-deployment)
