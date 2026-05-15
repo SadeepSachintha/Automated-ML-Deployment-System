@@ -1,4 +1,14 @@
+---
+title: ML Auto Deployment
+emoji: 🚀
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+pinned: false
+---
+
 # 🚀 Automated ML Deployment System
+
 
 A production-ready, fully automated end-to-end Machine Learning pipeline. This system automates the training of a Random Forest model on the Iris dataset and deploys it as a containerized API to **Hugging Face Spaces** using **GitHub Actions**.
 
