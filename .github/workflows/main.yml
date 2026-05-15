@@ -52,11 +52,17 @@ jobs:
     - name: Push to Hugging Face
       env:
         HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        # Replace with your Hugging Face username and space name
-        HF_SPACE_NAME: dwssp/ml-auto-deployment 
       run: |
-        git config --global user.email "actions@github.com"
-        git config --global user.name "GitHub Actions"
-        git add app/model_data/model.joblib
-        git commit -m "Update model and code" || echo "No changes to commit"
-        git push --force https://SadeepSachintha:$HF_TOKEN@huggingface.co/spaces/$HF_SPACE_NAME main
+        pip install huggingface_hub
+        python -c "
+        from huggingface_hub import HfApi
+        api = HfApi()
+        api.upload_folder(
+            folder_path='.',
+            repo_id='dwsssp/ml-auto-deployment',
+            repo_type='space',
+            token='${{ secrets.HF_TOKEN }}',
+            path_in_repo='.',
+            ignore_patterns=['.git*', 'venv*', '__pycache__*']
+        )
+        "
