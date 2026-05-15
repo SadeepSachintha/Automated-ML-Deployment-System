@@ -2,6 +2,8 @@ import os
 import joblib
 import pandas as pd
 from fastapi import FastAPI, HTTPException
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from typing import List
 
@@ -19,19 +21,13 @@ class PredictionResponse(BaseModel):
 
 app = FastAPI(title="ML Auto Deployment API", description="API to serve Iris species predictions")
 
-# Map integer predictions to species names
-SPECIES_MAP = {
-    0: "setosa",
-    1: "versicolor",
-    2: "virginica"
-}
-
 # Global variable to hold the model
 model = None
 
 @app.on_event("startup")
 def load_model():
     global model
+    # Model path relative to this file
     model_path = os.path.join(os.path.dirname(__file__), 'model_data', 'model.joblib')
     if os.path.exists(model_path):
         model = joblib.load(model_path)
@@ -39,10 +35,14 @@ def load_model():
     else:
         print(f"Warning: Model not found at {model_path}. Make sure to train the model first.")
 
-@app.get("/")
-def read_root():
-    return {"message": "Welcome to the ML Auto Deployment API. Send a POST request to /predict to get a prediction."}
+# Map integer predictions to species names
+SPECIES_MAP = {
+    0: "setosa",
+    1: "versicolor",
+    2: "virginica"
+}
 
+# API Endpoints
 @app.get("/health")
 def health_check():
     if model is None:
@@ -69,3 +69,15 @@ def predict(features: IrisFeatures):
         return {"prediction": prediction_int, "species": species_name}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+# Serve static files
+# Mount static files AFTER the API routes to avoid conflicts
+static_dir = os.path.join(os.path.dirname(__file__), "static")
+if not os.path.exists(static_dir):
+    os.makedirs(static_dir)
+
+app.mount("/static", StaticFiles(directory=static_dir), name="static")
+
+@app.get("/")
+def read_root():
+    return FileResponse(os.path.join(static_dir, "index.html"))

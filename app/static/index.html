@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML Auto Deployment | Iris Predictor</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="glass-background"></div>
+    
+    <main class="container">
+        <header class="hero">
+            <div class="badge">🚀 MLOps Production System</div>
+            <h1>Iris Species <span class="gradient-text">Predictor</span></h1>
+            <p>An automated end-to-end Machine Learning pipeline deployed on Hugging Face Spaces.</p>
+        </header>
+
+        <section class="predictor-card">
+            <div class="controls">
+                <div class="input-group">
+                    <label for="sepal_length">Sepal Length (cm): <span id="sepal_length_val">5.1</span></label>
+                    <input type="range" id="sepal_length" min="4.0" max="8.0" step="0.1" value="5.1">
+                </div>
+                <div class="input-group">
+                    <label for="sepal_width">Sepal Width (cm): <span id="sepal_width_val">3.5</span></label>
+                    <input type="range" id="sepal_width" min="2.0" max="4.5" step="0.1" value="3.5">
+                </div>
+                <div class="input-group">
+                    <label for="petal_length">Petal Length (cm): <span id="petal_length_val">1.4</span></label>
+                    <input type="range" id="petal_length" min="1.0" max="7.0" step="0.1" value="1.4">
+                </div>
+                <div class="input-group">
+                    <label for="petal_width">Petal Width (cm): <span id="petal_width_val">0.2</span></label>
+                    <input type="range" id="petal_width" min="0.1" max="2.5" step="0.1" value="0.2">
+                </div>
+            </div>
+
+            <div class="result-container">
+                <div id="loading" class="hidden">
+                    <div class="spinner"></div>
+                </div>
+                <div id="result" class="result-content">
+                    <div class="species-icon" id="species_icon">🌸</div>
+                    <h2 id="species_name">Setosa</h2>
+                    <p class="confidence">Prediction ID: <span id="prediction_id">0</span></p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="info">
+            <div class="tech-stack">
+                <span>FastAPI</span>
+                <span>Scikit-Learn</span>
+                <span>Docker</span>
+                <span>GitHub Actions</span>
+            </div>
+        </footer>
+    </main>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
